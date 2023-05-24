@@ -38,3 +38,36 @@ export async function createCart(
     data: newCart,
   });
 }
+
+export async function getCart(req: Request, res: Response, next: NextFunction) {
+  try {
+    const cart = await Cart.findById(req.params.id);
+    if (!cart) logger.info("Can't find data. Try again!");
+    res.status(200).json({
+      status: "Successfully!",
+      data: cart,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function updateCart(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const cart = await Cart.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!cart) logger.info("Can't update data. Try again!");
+    res.status(203).json({
+      status: "Successfully!",
+      data: cart,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
